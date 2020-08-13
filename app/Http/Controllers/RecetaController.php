@@ -3,9 +3,15 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Receta;
+use App\Categoria;
 
 class RecetaController extends Controller
 {
+
+    public function __construct(){
+        $this->middleware('auth');
+    }
 
     // If we only have one method so we have to call that method __invoke by that way
     // in the route we only have to write the controller name
@@ -20,7 +26,8 @@ class RecetaController extends Controller
      */
     public function index()
     {
-        return view('recetas.index');
+        $recetas = Receta::all();
+        return view('recetas.index', compact('recetas'));
     }
 
     /**
@@ -30,7 +37,8 @@ class RecetaController extends Controller
      */
     public function create()
     {
-        //
+        $categorias = Categoria::all();
+        return view('recetas.create', compact('categorias'));
     }
 
     /**
@@ -41,7 +49,23 @@ class RecetaController extends Controller
      */
     public function store(Request $request)
     {
-        //
+
+        $request->validate([
+            'titulo' => 'required',
+            'categoria_id' => 'required',
+            'ingredientes' => 'required',
+            'preparacion' => 'required',
+            'imagen' => 'required|image',
+        ]);
+        
+        $request->imagen = $request['imagen']->store('upload-recetas', 'public');
+
+        $user = $request->user();
+        $receta = $user->recetas()->make($request->all());
+        $receta->imagen = $request->imagen;
+        $receta->save();
+
+        return redirect()->route('recetas.index');
     }
 
     /**
@@ -52,7 +76,8 @@ class RecetaController extends Controller
      */
     public function show($id)
     {
-        //
+        $receta = Receta::findOrFail($id);
+        return view('recetas.show', compact('receta'));
     }
 
     /**
