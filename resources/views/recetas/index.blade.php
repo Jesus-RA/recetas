@@ -22,15 +22,15 @@
             <tbody>
                 @foreach ($recetas as $receta)
                     <tr>
-                        <td>
+                        <th>
                             <a href="{{ route('recetas.show', $receta) }}">
                                 {{$receta->titulo}}
                             </a>
-                        </td>
-                        <td>Pizza</td>
+                        </th>
+                        <td>{{ $receta->categoria->nombre }}</td>
                         <td>
-                            <button class="btn btn-warning">Eliminar</button>
-                            <button class="btn btn-danger">Editar</button>
+                            <a href="{{ route('recetas.edit', $receta) }}" class="btn btn-warning">Editar</a>
+                            <button class="btn btn-danger">Eliminar</button>
                         </td>
                     </tr>
                 @endforeach

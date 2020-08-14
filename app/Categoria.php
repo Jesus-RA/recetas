@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Receta;
 
 class Categoria extends Model
 {
@@ -11,6 +12,6 @@ class Categoria extends Model
     ];
 
     public function recetas(){
-        return $this->belongsToMany(Receta::class, 'categoria_id');
+        return $this->hasMany(Receta::class, 'categoria_id');
     }
 }

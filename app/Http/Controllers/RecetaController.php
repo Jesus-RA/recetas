@@ -2,15 +2,16 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Receta;
 use App\Categoria;
+use Illuminate\Http\Request;
+use Intervention\Image\Facades\Image;
 
 class RecetaController extends Controller
 {
 
     public function __construct(){
-        $this->middleware('auth');
+        $this->middleware('auth')->except('show');
     }
 
     // If we only have one method so we have to call that method __invoke by that way
@@ -26,7 +27,7 @@ class RecetaController extends Controller
      */
     public function index()
     {
-        $recetas = Receta::all();
+        $recetas = Receta::where('user_id', auth()->user()->id)->get();
         return view('recetas.index', compact('recetas'));
     }
 
@@ -37,7 +38,7 @@ class RecetaController extends Controller
      */
     public function create()
     {
-        $categorias = Categoria::all();
+        $categorias = Categoria::all(['id', 'nombre']);
         return view('recetas.create', compact('categorias'));
     }
 
@@ -60,6 +61,10 @@ class RecetaController extends Controller
         
         $request->imagen = $request['imagen']->store('upload-recetas', 'public');
 
+        // Resizing image
+        $img = Image::make( public_path("storage/{$request->imagen}") )->fit(1000, 550);
+        $img->save();
+
         $user = $request->user();
         $receta = $user->recetas()->make($request->all());
         $receta->imagen = $request->imagen;
@@ -74,9 +79,8 @@ class RecetaController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Receta $receta)
     {
-        $receta = Receta::findOrFail($id);
         return view('recetas.show', compact('receta'));
     }
 
@@ -86,9 +90,10 @@ class RecetaController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Receta $receta)
     {
-        //
+        $categorias = Categoria::all(['id', 'nombre']);
+        return view('recetas.edit', compact('receta', 'categorias'));
     }
 
     /**
@@ -98,9 +103,28 @@ class RecetaController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Receta $receta)
     {
-        //
+
+        $request->validate([
+            'titulo' => 'required',
+            'categoria_id' => 'required',
+            'ingredientes' => 'required',
+            'preparacion' => 'required',
+            'imagen' => 'required|image',
+        ]);
+
+        $request->imagen = $request->file('imagen')->store('upload-recetas', 'public');
+        
+        // Resizing image
+        $img = Image::make( public_path("storage/{$request->imagen}") )->fit(1000, 550);
+        $img->save();
+
+        $receta->fill($request->all());
+        $receta->imagen = $request->imagen;
+        $receta->save();
+
+        return redirect()->route('recetas.index');
     }
 
     /**
