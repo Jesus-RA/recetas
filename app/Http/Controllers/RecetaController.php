@@ -92,6 +92,9 @@ class RecetaController extends Controller
      */
     public function edit(Receta $receta)
     {
+        // Verify permissions with RecetaPolicy
+        $this->authorize('update', $receta);
+
         $categorias = Categoria::all(['id', 'nombre']);
         return view('recetas.edit', compact('receta', 'categorias'));
     }
@@ -106,22 +109,29 @@ class RecetaController extends Controller
     public function update(Request $request, Receta $receta)
     {
 
+        $this->authorize('update', $receta); 
+
         $request->validate([
             'titulo' => 'required',
             'categoria_id' => 'required',
             'ingredientes' => 'required',
             'preparacion' => 'required',
-            'imagen' => 'required|image',
+            'imagen' => 'image',
         ]);
 
-        $request->imagen = $request->file('imagen')->store('upload-recetas', 'public');
-        
-        // Resizing image
-        $img = Image::make( public_path("storage/{$request->imagen}") )->fit(1000, 550);
-        $img->save();
-
         $receta->fill($request->all());
-        $receta->imagen = $request->imagen;
+        
+        if($request->hasFile('imagen')){
+            $request->imagen = $request->file('imagen')->store('upload-recetas', 'public');
+            
+            // Resizing image
+            $img = Image::make( public_path("storage/{$request->imagen}") )->fit(1000, 550);
+            $img->save();
+    
+            $receta->imagen = $request->imagen;
+            
+        }
+
         $receta->save();
 
         return redirect()->route('recetas.index');
@@ -133,8 +143,13 @@ class RecetaController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Receta $receta)
     {
-        //
+
+        $this->authorize('delete', $receta);
+
+        $receta->delete();
+
+        return redirect()->route('recetas.index')->withSuccess("La receta $receta->titulo ha sido eliminada.");
     }
 }

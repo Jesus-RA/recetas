@@ -30,7 +30,11 @@
                         <td>{{ $receta->categoria->nombre }}</td>
                         <td>
                             <a href="{{ route('recetas.edit', $receta) }}" class="btn btn-warning">Editar</a>
-                            <button class="btn btn-danger">Eliminar</button>
+
+                            {{-- Deleting with axios and Vue js --}}
+                            <eliminar-receta
+                                receta-id="{{$receta->id}}"
+                            ></eliminar-receta>
                         </td>
                     </tr>
                 @endforeach
