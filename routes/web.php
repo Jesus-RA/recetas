@@ -22,3 +22,5 @@ Route::resource('/recetas', 'RecetaController');
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
+
+Route::resource('perfils', 'PerfilController')->except(['index', 'create', 'store']);

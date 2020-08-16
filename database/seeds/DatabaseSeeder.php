@@ -15,7 +15,10 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        $users = factory(User::class, 5)->create();
+        $users = factory(User::class, 5)->create()
+            ->each(function ($user){
+                $user->perfil()->create();
+            });
         
         $me = factory(User::class)->make();
         $me->email = 'jesus.ra98@hotmail.com';

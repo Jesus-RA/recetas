@@ -6,6 +6,7 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use App\Receta;
+use App\Perfil;
 
 class User extends Authenticatable
 {
@@ -38,7 +39,20 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
+    protected static function boot(){
+        parent::boot();
+
+        // Eloquent events allow us to hook into a point in a model's life cycle
+        static::created(function ($user){
+            $user->perfil()->create();
+        });
+    }
+
     public function recetas(){
         return $this->hasMany(Receta::class, 'user_id');
+    }
+
+    public function perfil(){
+        return $this->hasOne(Perfil::class, 'user_id');
     }
 }
