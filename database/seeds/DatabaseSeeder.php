@@ -32,6 +32,8 @@ class DatabaseSeeder extends Seeder
                 $receta->categoria_id = $categorias->random()->id;
                 $receta->save();
             });
+
+        $me->recetas()->saveMany($recetas->random(5));
         // $this->call(CategoriaSeeder::class);
         // $this->call(RecetaSeeder::class);
         // $this->call(UserSeeder::class);

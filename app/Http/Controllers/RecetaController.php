@@ -27,7 +27,7 @@ class RecetaController extends Controller
      */
     public function index()
     {
-        $recetas = Receta::where('user_id', auth()->user()->id)->get();
+        $recetas = Receta::where('user_id', auth()->user()->id)->paginate(10);
         return view('recetas.index', compact('recetas'));
     }
 
@@ -81,7 +81,13 @@ class RecetaController extends Controller
      */
     public function show(Receta $receta)
     {
-        return view('recetas.show', compact('receta'));
+        // Check if the authenticated user has liked this recipe
+        $liked = ( auth()->user() ) ? auth()->user()->recipesLiked->contains($receta->id) : false;
+
+        // Likes counter
+        $likes = $receta->likes->count();
+
+        return view('recetas.show', compact('receta', 'liked', 'likes'));
     }
 
     /**
@@ -93,7 +99,7 @@ class RecetaController extends Controller
     public function edit(Receta $receta)
     {
         // Verify permissions with RecetaPolicy
-        $this->authorize('update', $receta);
+        $this->authorize('view', $receta);
 
         $categorias = Categoria::all(['id', 'nombre']);
         return view('recetas.edit', compact('receta', 'categorias'));

@@ -13,9 +13,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', 'InicioController@index')->name('inicio.index');
 
 Route::resource('/recetas', 'RecetaController');
 
@@ -24,3 +22,6 @@ Auth::routes();
 Route::get('/home', 'HomeController@index')->name('home');
 
 Route::resource('perfils', 'PerfilController')->except(['index', 'create', 'store']);
+
+// Stores the likes of the recipes
+Route::post('/recetas/{receta}', 'LikesController@update')->name('likes.update');

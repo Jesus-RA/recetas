@@ -32,4 +32,9 @@ class Receta extends Model
     public function categoria(){
         return $this->belongsTo(Categoria::class, 'categoria_id');
     }
+
+    // Likes that a recipe has received
+    public function likes(){
+        return $this->belongsToMany(User::class, 'likes_receta');
+    }
 }

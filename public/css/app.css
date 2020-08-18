@@ -10906,19 +10906,100 @@ a.text-dark:focus {
 
 body {
   font-family: "Didact Gothic", sans-serif;
+  background-color: #eee;
+}
+
+trix-editor {
+  min-height: 400px;
+  height: auto !important;
 }
 
 .bg-primary .navbar-brand {
   color: white;
   font-family: "Fredoka One", cursive;
   font-size: 1.5rem;
+  font-family: "Fredoka One", cursive;
+  color: #FFF !important;
+  text-decoration: none;
 }
 
 .bg-primary .navbar-brand:hover {
   color: white;
 }
 
-trix-editor {
-  min-height: 300px;
+.icono {
+  width: 20px;
+}
+
+.barra {
+  background-color: #ED4646 !important;
+}
+
+.fecha {
+  color: #ED4646 !important;
+}
+
+.receta-meta p {
+  font-size: 12px;
+  font-weight: bold;
+}
+
+.navbar-light .navbar-nav .nav-link {
+  color: #FFF;
+  font-size: 1.4rem;
+}
+
+.navbar-light .navbar-nav .nav-link:focus,
+.navbar-light .navbar-nav .nav-link:hover {
+  color: #FFF;
+}
+
+.titulo-categoria {
+  font-family: "Cabin", sans-serif;
+  color: #333;
+  font-size: 1.8rem;
+  border-bottom: 3px solid #ED4646 !important;
+  display: inline-block;
+  padding-bottom: 0.5rem;
+  padding-right: 2rem;
+}
+
+.btn-receta,
+.btn-receta:hover {
+  background-color: #ED4646 !important;
+  border: none;
+}
+
+.owl-carousel .owl-stage {
+  display: flex;
+}
+
+.card {
+  display: flex;
+  flex: 1 0 auto;
+  height: 100%;
+}
+
+.card-body {
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+}
+
+.heart {
+  width: 100px;
+  height: 100px;
+  background: url("https://cssanimation.rocks/images/posts/steps/heart.png") no-repeat;
+  background-position: 0 0;
+  cursor: pointer;
+  transition: background-position 1s steps(28);
+  transition-duration: 0s;
+}
+
+.heart.is-active {
+  transition-duration: 1s;
+  background-position: -2800px 0;
 }
 

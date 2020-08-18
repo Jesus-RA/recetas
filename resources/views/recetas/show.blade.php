@@ -11,7 +11,7 @@
         <div class="image-receta">
             <img src="{{Storage::url($receta->imagen)}}" alt="" class="w-100">
         </div>
-
+        
         <div class="receta-meta mt-2">
             <p>
                 <span class="font-weight-bold text-primary">Escrito en:</span>
@@ -37,6 +37,15 @@
                 <h2 class="my-4 text-primary">Preparacion</h2>
                 {!! $receta->preparacion !!}
             </div>
+
+            <div class="justify-content-center row text-center">
+                <like-button
+                    receta="{{ $receta->id }}"
+                    liked="{{ $liked }}"
+                    likes="{{$likes}}"
+                ></like-button>
+            </div>
+
         </div>
     </article>
 @endsection
