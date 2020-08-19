@@ -45,19 +45,21 @@
             @endforeach
         </div>
     </div>
-
-    <div class="container">
-        <h2 class="titulo-categoria text-uppercase mt-5 mb-4">
-            Recetas más votadas
-        </h2>
-        <div class="row">
-            <div class="owl-carousel owl-theme">
-                @foreach ($mostValuatedRecipes as $receta)
-                    @include('ui.receta')
-                @endforeach
+    
+    @if ( sizeof( $mostValuatedRecipes ) > 0 )
+        <div class="container">
+            <h2 class="titulo-categoria text-uppercase mt-5 mb-4">
+                Recetas más votadas
+            </h2>
+            <div class="row">
+                <div class="owl-carousel owl-theme">
+                    @foreach ($mostValuatedRecipes as $receta)
+                        @include('ui.receta')
+                    @endforeach
+                </div>
             </div>
         </div>
-    </div>
+    @endif
 
     @foreach ($recetas as $key => $grupo)
         <div class="container">

@@ -10,7 +10,10 @@ $factory->define(Receta::class, function (Faker $faker) {
         'titulo' => $faker->safeColorName,
         'ingredientes' => $faker->paragraph(5),
         'preparacion' => $faker->paragraph(5),
-        'imagen' => $faker->imageUrl(300,300),
+        'imagen' => $faker->randomElement([
+            'receta1',
+            'receta2',
+        ]),
         'user_id' => $faker->randomDigit,
         'categoria_id' => $faker->randomDigit,
     ];

@@ -5,22 +5,26 @@
 @endsection
 
 @section('content')
-    <article class="contenido-receta">
+    <article class="contenido-receta bg-white p-5 shadow-lg">
         <h1 class="text-center mb-4">{{$receta->titulo}}</h1>
 
         <div class="image-receta">
             <img src="{{Storage::url($receta->imagen)}}" alt="" class="w-100">
         </div>
         
-        <div class="receta-meta mt-2">
+        <div class="receta-meta mt-3">
             <p>
                 <span class="font-weight-bold text-primary">Escrito en:</span>
-                {{$receta->categoria->nombre}}
+                <a href="{{ route('categorias.show', $receta->categoria) }}" class="text-dark">
+                    {{$receta->categoria->nombre}}
+                </a>
             </p>
 
             <p>
                 <span class="font-weight-bold text-primary">Autor:</span>
-                {{$receta->user->name}}
+                <a href="{{ route('perfils.show', $receta->user) }}" class="text-dark">
+                    {{$receta->user->name}}
+                </a>
             </p>
 
             <p>
@@ -34,7 +38,7 @@
             </div>
 
             <div class="preparacion">
-                <h2 class="my-4 text-primary">Preparacion</h2>
+                <h2 class="my-4 text-primary">Preparación</h2>
                 {!! $receta->preparacion !!}
             </div>
 
