@@ -10,6 +10,10 @@ use Illuminate\Http\Request;
 class InicioController extends Controller
 {
     public function index(){
+
+        // Getting the most valuated recipes
+        $mostValuatedRecipes = Receta::has('likes', '>', '0')->withCount('likes')->orderBy('likes_count', 'DESC')->take(3)->get();
+
         // Getting the latest recipes
         $recetasRecientes = Receta::latest()->take(6)->get();
 
@@ -20,6 +24,6 @@ class InicioController extends Controller
             $recetas[ Str::slug($categoria->nombre) ][] = Receta::where('categoria_id', $categoria->id)->get();
         }
 
-        return view('inicio.index', compact('recetasRecientes', 'recetas'));
+        return view('inicio.index', compact('recetasRecientes', 'recetas', 'mostValuatedRecipes'));
     }
 }

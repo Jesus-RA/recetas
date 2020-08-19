@@ -47,7 +47,7 @@ const app = new Vue({
 jQuery(document).ready(function(){
     jQuery('.owl-carousel').owlCarousel({
         margin: 10,
-        loop: true,
+        // loop: true,
         autoplay: true,
         autoplayHoverPause: true,
         responsive: {

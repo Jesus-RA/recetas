@@ -17,11 +17,16 @@ Route::get('/', 'InicioController@index')->name('inicio.index');
 
 Route::resource('/recetas', 'RecetaController');
 
+// Recipes searcher
+Route::get('/buscar', 'RecetaController@search')->name('search.show');
+
+// Stores the likes of the recipes
+Route::post('/recetas/{receta}', 'LikesController@update')->name('likes.update');
+
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 
 Route::resource('perfils', 'PerfilController')->except(['index', 'create', 'store']);
 
-// Stores the likes of the recipes
-Route::post('/recetas/{receta}', 'LikesController@update')->name('likes.update');
+Route::get('/categorias/{categoria}', 'CategoriaController@show')->name('categorias.show');

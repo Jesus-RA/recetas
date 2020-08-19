@@ -11,7 +11,7 @@ class RecetaController extends Controller
 {
 
     public function __construct(){
-        $this->middleware('auth')->except('show');
+        $this->middleware('auth')->except('show', 'search');
     }
 
     // If we only have one method so we have to call that method __invoke by that way
@@ -157,5 +157,14 @@ class RecetaController extends Controller
         $receta->delete();
 
         return redirect()->route('recetas.index')->withSuccess("La receta $receta->titulo ha sido eliminada.");
+    }
+
+    public function search(Request $request){
+
+        $search = $request->get('search');
+        $recetas = Receta::where('titulo', 'like', '%'.$search.'%')->paginate(3);
+        $recetas->appends(['search' => $search]);
+
+        return view('searches.show', compact('recetas', 'search'));
     }
 }

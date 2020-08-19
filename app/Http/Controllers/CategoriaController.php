@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Categoria;
 use Illuminate\Http\Request;
+use App\Receta;
 
 class CategoriaController extends Controller
 {
@@ -46,7 +47,8 @@ class CategoriaController extends Controller
      */
     public function show(Categoria $categoria)
     {
-        //
+        $recetas = Receta::where('categoria_id', $categoria->id)->paginate(3);
+        return view('categorias.show', compact('recetas', 'categoria'));
     }
 
     /**
